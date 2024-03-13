@@ -32,6 +32,10 @@ yarn-error.*
 .env*.local
 
 .env
+<<<<<<< HEAD
+=======
+
+>>>>>>> navigation
 # typescript
 *.tsbuildinfo
 

@@ -1,11 +1,14 @@
-import { Text, View } from "react-native"
+import React from 'react';
+import { View } from 'react-native';
+import MapComponent from './assets/Components/MapComponent';
 
-function index() {
-    return (
-        <View>
-            <Text>Hello world</Text>
-        </View>
-    )
-}
+const Index = () => {
+  return (
+    <View style={{ flex: 1 }}>
+      <MapComponent/>
+      {/* <ShareApp/> */}
+    </View>
+  );
+};
 
-export default index
+export default Index;
