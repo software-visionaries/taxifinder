@@ -1,20 +1,46 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, SafeAreaView, TextInput, Button } from 'react-native'
+import { View, StyleSheet, SafeAreaView, TextInput, Button, Modal, Text } from 'react-native'
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import MapView, { Marker } from 'react-native-maps'
-import { save, getValueFor } from './Utils';
+import { save, getValueFor, getFileExtension } from './Utils';
+import { useRouter } from 'expo-router';
 
-function AddTrip({ user_id, question_id }) {
+
+const ip = process.env.IP_ADDRESS
+
+function AddTrip({ user_id, question_id, fromLocation }) {
 
   const [price, setPrice] = useState('')
   const [selectImage, setSelectedImage] = useState<any>(null)
   const [note, setNote] = useState('')
   const [name, setName] = useState('')
   const [tripId, setTripId] = useState('')
+  const [selectedPlace, setSelectedPlace] = useState(false)
+  const [latitudeDelta, setLatitudeDelta] = useState(0.0922)
+  const [longitudeDelta, setLongitudeDelta] = useState(0.0421)
+  const router = useRouter();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [region, setRegion] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: latitudeDelta,
+    longitudeDelta: longitudeDelta
+  })
 
   const imgDir = FileSystem.documentDirectory + 'images/';
+
+  const handleYes = () => {
+    reset()
+    setModalVisible(false);
+  };
+
+  const handleNo = () => {
+    console.log('User canceled');
+    router.push({ pathname: "/assets/Components/trip/Modal", params: { message: "Hello" } })
+    setModalVisible(false);
+  };
 
   const ensureDirExists = async () => {
     const dirInfo = await FileSystem.getInfoAsync(imgDir);
@@ -22,13 +48,6 @@ function AddTrip({ user_id, question_id }) {
       await FileSystem.makeDirectoryAsync(imgDir, { intermediates: true })
     }
   }
-
-  const [region, setRegion] = useState({
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421
-  })
 
   const reset = () => {
     setPrice('')
@@ -68,9 +87,27 @@ function AddTrip({ user_id, question_id }) {
     setNote(event.nativeEvent.text)
   }
 
+  const handleRegionChangeComplete = (newRegion: any) => {
+    setLatitudeDelta(newRegion.latitudeDelta)
+    setLongitudeDelta(newRegion.longitudeDelta)
+  }
+
+  const handleMapPress = (event: any) => {
+    const { coordinate } = event.nativeEvent;
+    setRegion({
+      latitude: coordinate.latitude,
+      longitude: coordinate.longitude,
+      latitudeDelta,
+      longitudeDelta
+    })
+    setName(`${fromLocation} location:lat-${coordinate.latitude.toFixed(2)}, long-${coordinate.longitude.toFixed(2)}`)
+    console.log("selected", coordinate, name)
+  }
+
   const saveImage = async (uri: string) => {
     await ensureDirExists();
-    const filename = new Date().getTime() + ".png"
+    const filename = new Date().getTime() + "." + getFileExtension(uri)
+    console.log(filename)
     const dest = imgDir + filename;
     await FileSystem.copyAsync({ from: uri, to: dest })
     setSelectedImage(dest)
@@ -86,7 +123,7 @@ function AddTrip({ user_id, question_id }) {
     formData.append("latitude", `${region.latitude}`)
     formData.append("longitude", `${region.longitude}`)
 
-    fetch(`http://192.168.8.8:8080/add/trip/${user_id}/${question_id}`, {
+    fetch(`http://${ip}:8080/add/trip/${user_id}/${question_id}`, {
       method: "POST",
       body: formData,
       headers: {
@@ -109,7 +146,7 @@ function AddTrip({ user_id, question_id }) {
       })
       .finally(async () => {
         console.log("getvaluefor()", getValueFor("trip_id"))
-        await FileSystem.uploadAsync(`http://192.168.8.8:8080/add/trip/image/${getValueFor("trip_id")}`, uri, {
+        await FileSystem.uploadAsync(`http://${ip}:8080/add/trip/image/${getValueFor("trip_id")}`, uri, {
           httpMethod: 'PUT',
           uploadType: FileSystem.FileSystemUploadType.MULTIPART,
           fieldName: 'multipartFile',
@@ -134,6 +171,7 @@ function AddTrip({ user_id, question_id }) {
 
   const handleSubmit = async () => {
     await uploadData(selectImage)
+    setModalVisible(true)
   }
 
   return (
@@ -168,6 +206,8 @@ function AddTrip({ user_id, question_id }) {
           style={styles.map}
           region={region}
           provider='google'
+          onPress={(event) => handleMapPress(event)}
+          onRegionChangeComplete={handleRegionChangeComplete}
         >
           <Marker coordinate={region} />
         </MapView>
@@ -180,6 +220,22 @@ function AddTrip({ user_id, question_id }) {
       <View>
         <Button title='submit' onPress={() => handleSubmit()} />
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Do you want to add another response?</Text>
+            <View style={styles.buttonContainer}>
+              <Button title="No" onPress={handleNo} />
+              <Button title="Yes" onPress={handleYes} />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   )
 }
@@ -202,7 +258,36 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1
-  }
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+  },
 })
 
 export default AddTrip
