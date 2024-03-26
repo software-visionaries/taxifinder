@@ -28,7 +28,7 @@ function ShareApp() {
 
   return (
     <View style={{ marginTop: 50, flex: 1 ,alignItems: 'flex-end',height: 12}}>
-      <Button onPress={onShare} title="Share" />
+      {/* <Button onPress={onShare} title="Share" /> */}
     </View>
   );
 }

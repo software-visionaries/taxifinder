@@ -12,7 +12,7 @@ function Trip() {
   save("user_id", "1")
 
   useEffect(() => {
-    fetch(`http://192.168.8.8:8080/get/question/${getValueFor("question_id")}`)
+    fetch(`http://146.141.180.85:8080a/get/question/${getValueFor("question_id")}`)
       .then(res => {
         if (!res.ok) {
           throw new Error("Network response was not okay")

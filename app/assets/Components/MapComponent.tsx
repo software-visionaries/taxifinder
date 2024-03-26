@@ -154,6 +154,7 @@ function toRad(degrees) {
               paddingTop: 65,
               justifyContent: 'center',
               alignItems: 'center',
+              // display:'none'
             },
             textInput: {
               fontSize: 18,
