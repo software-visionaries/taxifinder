@@ -11,3 +11,11 @@ export function getValueFor(key: string) {
         return result
     }
 }
+
+export function getFileExtension(uri: String) {
+    const uriParts = uri.split('/');
+    const fileName = uriParts[uriParts.length - 1]
+    const fileNameParts = fileName.split('.')
+    const fileExtension = fileNameParts[fileNameParts.length - 1]
+    return fileExtension;
+}
