@@ -7,7 +7,6 @@ import{Provider} from "react-redux"
 import TopMenu from './assets/Components/TopMenu';
 import HomeScreen from './components/HomeScreen';
 import NoResponseFoundScreen from './components/NoResponseFoundScreen';
-import TripList from './components/TripList';
 import Notifications from './components/Notifications';
 import AddTrip from './assets/Components/trip/AddTrip';
 

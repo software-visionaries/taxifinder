@@ -1,17 +1,23 @@
 import React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { router } from 'expo-router';
 function SecondHeader() {
   return (
     <View style={styles.navigation}>
     <View style={styles.LeftIcon}>
-        <TouchableOpacity>
+        <TouchableOpacity 
+         onPress={() => {
+                        router.navigate("/components/HomeScreen");
+                    }}>
             <Icon name="home" size={25} color={"#FFFFFF"} />
         </TouchableOpacity>
     </View>
 
     <View style={styles.RightIcons}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+                        router.navigate("/components/Notifications");
+                    }}>
             <Icon name="bell" size={20} color={"#FFFFFF"} />
         </TouchableOpacity>
         

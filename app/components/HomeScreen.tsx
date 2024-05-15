@@ -52,6 +52,7 @@ function HomeScreen() {
            })
         } else {
           setIsTripAvailable(false);
+            await addQuestion();         
         }
       } catch (error) {
         console.error("Error fetching trips:", error);
@@ -59,15 +60,14 @@ function HomeScreen() {
     };
     
 
-      const findOutSearchOrAddQuestion = () => {
-        fetchTrips();
-        if(isTripAvailable) {
-       
-        }else {
-          addQuestion();
-          router.navigate("/components/NoResponseFoundScreen");
-        }      
-    }
+    //   const findOutSearchOrAddQuestion = () => {
+    //     fetchTrips();
+    //     console.log(isTripAvailable)
+    //     if(isTripAvailable) {
+    //       addQuestion();
+         
+    //     }   
+    // }
 
     const addQuestion = async () => {
         try {
@@ -85,6 +85,7 @@ function HomeScreen() {
                     toSection : toSection.trim()
                 }),
             });
+            router.navigate("/components/NoResponseFoundScreen");
             if(!response.ok) {
                 console.log("error");
             }

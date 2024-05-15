@@ -6,30 +6,15 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { TouchableOpacity } from 'react-native';
 import AppButton from '../assets/Components/AppButton';
+import SecondHeader from '../assets/Components/trip/SecondHeader';
+
 
 function NoResponseFoundScreen() {
     return (
         <View style={styles.container}>
-            <View style={styles.navigation}>
-                <View style={styles.LeftIcon}>
-                    <TouchableOpacity>
-                        <Icon name="home" size={35} color={"#FFFFFF"} />
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.RightIcons}>
-                    <TouchableOpacity>
-                        <Icon name="bell" size={30} color={"#FFFFFF"} />
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity>
-                        <Icon name="user-circle" size={30} color={"#FFFFFF"} />
-                    </TouchableOpacity>
-                </View>
-                
-            </View>
-
-            <View>
+            <SecondHeader/>
+        
+         <View>
                 <Text style={styles.message}>
                     No Responses Found. We added your query to our community for the future.
                 </Text>
@@ -41,9 +26,7 @@ function NoResponseFoundScreen() {
                    router.navigate("/components/HomeScreen"); 
                  }} 
                 />
-
-                </View>
-                
+                </View>          
                
             </View>
 
