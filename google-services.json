@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "73157328828",
+    "project_id": "shortleft-3a08c",
+    "storage_bucket": "shortleft-3a08c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73157328828:android:66afc2256b2f9e1c39b5b9",
+        "android_client_info": {
+          "package_name": "com.shortLeft.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpfuWZzlNz7GKOXJtWehE6kKeLh8gTHiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

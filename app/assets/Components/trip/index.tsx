@@ -4,7 +4,7 @@ import Question from './Question'
 import AddTrip from './AddTrip'
 import { save, getValueFor } from './Utils';
 
-const ip = process.env.IP_ADDRESS
+const ip = `192.168.8.13`
 
 function Trip() {
   const [fromLocation, setFromLocation] = useState("")
@@ -14,7 +14,7 @@ function Trip() {
   save("user_id", "1")
 
   useEffect(() => {
-    fetch(`http://${ip}:8080/get/question/${getValueFor("question_id")}`)
+    fetch(`http://192.168.8.13:8080/get/question/${getValueFor("question_id")}`)
       .then(res => {
         if (!res.ok) {
           throw new Error("Network response was not okay")

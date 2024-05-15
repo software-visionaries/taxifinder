@@ -8,7 +8,7 @@ import { save, getValueFor, getFileExtension } from './Utils';
 import { useRouter } from 'expo-router';
 
 
-const ip = process.env.IP_ADDRESS
+const ip = `192.168.8.13`
 
 function AddTrip({ user_id, question_id, fromLocation }) {
 
