@@ -18,7 +18,7 @@ const MapComponent = () => {
     if(!id) {
       return;
     }
-    fetch(`http://146.141.180.118:8080/trip/${id}`)
+    fetch(`http://146.141.180.79:8080/trip/${id}`)
       .then(res => {
         if(!res.ok) {
           throw new Error("Network response was not okay")

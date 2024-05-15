@@ -188,6 +188,7 @@ function AddTrip({ user_id, question_id, fromLocation }) {
             key: `${process.env.API_GOOGLE_MAP_TOKEN}`,
             language: 'en',
           }}
+         
         />
       </View>
       <View style={styles.secondContainer}>
