@@ -33,10 +33,10 @@ const TripList: React.FC = () => {
   // setTrips(JSON.parse(dataTrip))
   const tripjson = JSON.parse(dataTrip);
   
-  console.log(tripjson[0].fromSectionName)
+  console.log(tripjson)
 
   useEffect(() => {   
-    fetch(`http://146.141.180.79:8080/trip/direction/tripjson[0].fromTownName/tripjson[0].fromSectionName/tripjson[0].fromSectionName/tripjson[0].toTownName/tripjson[0].toAreaName/tripjson[0].toSectionName`)
+    fetch(`http://146.141.180.79:8080/trip/direction/${tripjson[0].fromTownName}/${tripjson[0].fromAreaName}/${tripjson[0].fromSectionName}/${tripjson[0].toTownName}/${tripjson[0].toAreaName}/${tripjson[0].toSectionName}`)
     .then(res => {
       if(!res.ok) {
         throw new Error("Network response was not okay")
@@ -201,6 +201,7 @@ const TripList: React.FC = () => {
       </View>
     </View>
   );
+  const ItemSeparator = () => <View style={styles.tripContainer} />;
 
   return (
     <View style={styles.container}>
@@ -211,7 +212,7 @@ const TripList: React.FC = () => {
             data={trips}
             renderItem={renderItem}
             keyExtractor={item => item.tripId.toString()}
-            style ={styles.tripContainer}
+            // ItemSeparatorComponent={ItemSeparator}
           />
       </View>
      
@@ -236,18 +237,20 @@ const styles = StyleSheet.create({
     padding:10,
     height:"75%",
     borderRadius:11,
-  },
+  },  
 
   container: {
     backgroundColor: '#FFF',
     height:'100%',
     position: 'relative',
     fontFamily : "Roboto_300Light",
+    marginBottom:10
     
   },
   tripContainer :{
-    flex:1,
-    gap:20,
+    height: 1,
+    backgroundColor: '#ccc',
+    
     // padding:10,
   },
   tagTextbackground :{
@@ -258,7 +261,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius:10,
     padding:10,
     justifyContent:'center',
-    gap:10
+    gap:10,
+    
   },
   tagText :{
     color:"#fff",
@@ -287,7 +291,7 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     paddingVertical:20,
     alignItems:'center',
-    gap:10
+    gap:10,    
   },
   iconTitle:{
     flexDirection:'row',
@@ -325,25 +329,25 @@ const styles = StyleSheet.create({
 //     borderRadius:18,
 //     zIndex: 100,
 //   },
-//   displayresponseConatiner :{
-//     marginHorizontal:10,
-//     position: "relative",
-//         marginVertical:20,
-//         backgroundColor:"#fff", 
-//         height:"100%",
-//         borderRadius :11,
-//         ...Platform.select({
-//             ios: {
-//                 shadowColor: '#000',
-//                 shadowOffset: { width: 0, height: 2 },
-//                 shadowOpacity: 0.25,
-//                 shadowRadius: 3.84,
-//             },
-//             android: {
-//               elevation: 0.5,
-//             },
-//           }),        
-//   },
+  // displayresponseConatiner :{
+  //   marginHorizontal:10,
+  //   position: "relative",
+  //       marginVertical:20,
+  //       backgroundColor:"#fff", 
+  //       height:"100%",
+  //       borderRadius :11,
+  //       ...Platform.select({
+  //           ios: {
+  //               shadowColor: '#000',
+  //               shadowOffset: { width: 0, height: 2 },
+  //               shadowOpacity: 0.25,
+  //               shadowRadius: 3.84,
+  //           },
+  //           android: {
+  //             elevation: 0.5,
+  //           },
+  //         }),        
+  // },
 //   tagTextbackground :{
 //     flex:1,       
 //     flexDirection:'row',
@@ -417,44 +421,44 @@ const styles = StyleSheet.create({
 //     color: '#fff',
 //     alignItems: 'center'
 //   },
-//   commentContainer: {
-//     marginTop: 10,
-//   },
-//   commentInput: {
-//     borderWidth: 1,
-//     borderColor: 'lightgray',
-//     borderRadius: 5,
-//     padding: 10,
-//     marginBottom: 10,
-//   },
-//   commentButton: {
-//     backgroundColor: 'blue',
-//     padding: 10,
-//     borderRadius: 5,
-//     alignItems: 'center',
-//   },
-//   commentButtonText: {
-//     color: 'white',
-//   },
-//   modalOverlay: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-//   },
-//   modalContent: {
-//     backgroundColor: 'white',
-//     padding: 20,
-//     borderRadius: 10,
-//   },
-//   modalButton: {
-//     paddingVertical: 10,
-//     alignItems: 'center',
-//   },
-//   modalButtonText: {
-//     fontSize: 18,
-//     color: 'blue',
-//   },,
+  commentContainer: {
+    marginTop: 10,
+  },
+  commentInput: {
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  },
+  commentButton: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  commentButtonText: {
+    color: 'white',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalButton: {
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    fontSize: 18,
+    color: 'blue',
+  },
   taxiLocation :{
     marginVertical:10,
     fontFamily: "Roboto_300Light",

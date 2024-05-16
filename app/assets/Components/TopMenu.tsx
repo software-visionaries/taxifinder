@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { router } from 'expo-router';
 
 
 
@@ -9,18 +10,20 @@ function TopMenu() {
     <View style ={styles.container}>
         <View style={styles.navigation}>
                 <View style={styles.LeftIcon}>
-                    <TouchableOpacity>
-                        <Icon name="home" size={35} color={"#FFFFFF"} />
+                    <TouchableOpacity onPress={() => {
+                        router.navigate("/components/HomeScreen");
+                    }}>
+                        <Icon name="home" size={25} color={"#FFFFFF"} />
                     </TouchableOpacity>
                 </View>
-
                 <View style={styles.RightIcons}>
+                    <TouchableOpacity onPress={() => {
+                        router.navigate("/components/Notifications");
+                    }}>
+                        <Icon name="bell" size={20} color={"#FFFFFF"} />
+                    </TouchableOpacity>                    
                     <TouchableOpacity>
-                        <Icon name="bell" size={30} color={"#FFFFFF"} />
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity>
-                        <Icon name="user-circle" size={30} color={"#FFFFFF"} />
+                        <Icon name="user-circle" size={20} color={"#FFFFFF"} />
                     </TouchableOpacity>
                 </View>
                 

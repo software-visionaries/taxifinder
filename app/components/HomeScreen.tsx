@@ -8,9 +8,6 @@ import {  useFonts, Inter_900Black,Inter_500Medium,Inter_600SemiBold } from '@ex
 import {Roboto_100Thin,Roboto_300Light,Roboto_400Regular,Roboto_500Medium,Roboto_700Bold,Roboto_900Black  } from '@expo-google-fonts/roboto'
 import { Dropdown } from 'react-native-element-dropdown';
 import { router } from 'expo-router';
-import TripList from './TripList';
-
-
 
 interface LocationData {
   location: any; // You can replace 'any' with the appropriate type for location data
@@ -52,6 +49,7 @@ function HomeScreen() {
            })
         } else {
           setIsTripAvailable(false);
+            await addQuestion();         
         }
       } catch (error) {
         console.error("Error fetching trips:", error);
@@ -59,15 +57,14 @@ function HomeScreen() {
     };
     
 
-      const findOutSearchOrAddQuestion = () => {
-        fetchTrips();
-        if(isTripAvailable) {
-       
-        }else {
-          addQuestion();
-          router.navigate("/components/NoResponseFoundScreen");
-        }      
-    }
+    //   const findOutSearchOrAddQuestion = () => {
+    //     fetchTrips();
+    //     console.log(isTripAvailable)
+    //     if(isTripAvailable) {
+    //       addQuestion();
+         
+    //     }   
+    // }
 
     const addQuestion = async () => {
         try {
@@ -85,6 +82,7 @@ function HomeScreen() {
                     toSection : toSection.trim()
                 }),
             });
+            router.navigate("/components/NoResponseFoundScreen");
             if(!response.ok) {
                 console.log("error");
             }

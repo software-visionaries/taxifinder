@@ -10,7 +10,6 @@ import Register from './assets/Components/register';
 import TopMenu from './assets/Components/TopMenu';
 import HomeScreen from './components/HomeScreen';
 import NoResponseFoundScreen from './components/NoResponseFoundScreen';
-import NotificationsT from './components/Notifications';
 import AddTrip from './assets/Components/trip/AddTrip';
 
 Notifications.setNotificationHandler({
