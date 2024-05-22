@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native'
-import { save, ip } from '../trip/Utils'
+import { Text, View, TextInput, Button, StyleSheet, Image } from 'react-native';
+import { ip, save } from '../trip/Utils';
+import '../../../base64Polyfill'
+import { router } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AppButton from '../AppButton';
 
 
-function UserDetails({ expoPushToken, setNext }) {
+function Login() {
 
-    const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-
-    const handleName = (event: any) => {
-        setName(event.nativeEvent.text)
-    }
 
     const handleEmail = (event: any) => {
         setEmail(event.nativeEvent.text)
@@ -23,19 +20,17 @@ function UserDetails({ expoPushToken, setNext }) {
         setPassword(event.nativeEvent.text)
     }
 
-    const handleNext = () => {
-        fetch(`http://${ip}:8080/sign-up`, {
+    const handleNext = async () => {
+
+        const credentials = `${email}:${password}`;
+        const Buffer = require("buffer").Buffer
+        let encodedCred = new Buffer(credentials).toString("base64")
+
+        fetch(`http://${ip}:8080/sign-in`, {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                'Authorization': `Basic ${encodedCred}`
             },
-            body: JSON.stringify({
-                "name": name,
-                "email": email,
-                "password": password,
-                "role": "user",
-                "pushToken": expoPushToken
-            }),
         })
             .then(res => {
                 if (!res.ok) {
@@ -49,8 +44,9 @@ function UserDetails({ expoPushToken, setNext }) {
                 save("user_id", `${data.user_id}`)
                 save("access_token", `${data.access_token}`)
                 save("user_name", `${data.user_name}`)
-                setNext(true)
-                return data;
+                router.push({
+                    pathname: "/components/HomeScreen"
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -65,31 +61,25 @@ function UserDetails({ expoPushToken, setNext }) {
                     <View style={styles.logoImageContainer}>
                         <Image source={require('/Users/cash/Desktop/taxifinder/app/assets/icons/logo.png')} style={styles.logoImage} />
                     </View>
-                    <View style={styles.registerHeadingContainer}>
-                        <Text style={styles.registerHeading}>Sign Up</Text>
+                    <View style={styles.loginHeadingContainer}>
+                        <Text style={styles.loginHeading}>Login</Text>
                     </View>
                     <View style={styles.inputContainer}>
                         <TextInput
-                            style={styles.registerInputBox}
-                            value={name}
-                            onChange={(event) => handleName(event)}
-                            placeholder='name'
-                        />
-                        <TextInput
-                            style={styles.registerInputBox}
+                            style={styles.loginInputBox}
                             value={email}
                             onChange={(event) => handleEmail(event)}
                             placeholder='email'
                         />
                         <TextInput
-                            style={styles.registerInputBox}
+                            style={styles.loginInputBox}
                             value={password}
                             onChange={(event) => handlePassword(event)}
                             placeholder='password'
                         />
                     </View>
-                    <View style={styles.nextButton}>
-                        <AppButton title={'Next'} onPress={handleNext} />
+                    <View style={styles.loginButton}>
+                        <AppButton title={'Login'} onPress={handleNext} />
                     </View>
                 </View>
             </View>
@@ -128,32 +118,32 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        marginTop: 15
+        marginTop: 40
     },
     logoImage: {
         width: 100,
         height: 80
     },
-    registerHeadingContainer: {
+    loginHeadingContainer: {
         alignSelf: 'center',
         margin: 10
     },
-    registerHeading: {
+    loginHeading: {
         fontSize: 20
     },
-     inputContainer: {
+    inputContainer: {
 
     },
-    registerInputBox: {
+    loginInputBox: {
         padding: 10,
         borderWidth: .3,
         borderColor: 'black',
         margin: 10,
         borderRadius: 5
     },
-    nextButton: {
+    loginButton: {
         alignItems: 'center'
     }
 })
 
-export default UserDetails
+export default Login;

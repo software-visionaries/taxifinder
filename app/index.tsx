@@ -11,6 +11,10 @@ import TopMenu from './assets/Components/TopMenu';
 import HomeScreen from './components/HomeScreen';
 import NoResponseFoundScreen from './components/NoResponseFoundScreen';
 import AddTrip from './assets/Components/trip/AddTrip';
+import Address from './assets/Components/register/Address';
+import Login from './assets/Components/login';
+import LoginSignup from './assets/Components/loginSignup';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -67,7 +71,7 @@ async function registerForPushNotifications() {
 }
 
 const Index = () => {
-    
+
     const [expoPushToken, setExpoPushToken] = useState("");
     const [notification, setNotification] = useState<Notifications.Notification | undefined>(undefined);
 
@@ -92,20 +96,9 @@ const Index = () => {
     }, []);
 
     return (
-        // <Provider store={}>
-        <View style={{ flex: 1 }}>
-            {/* <Trip /> */}
-            {<Register pushToken={expoPushToken} />}
-            {/* <TripList /> */}
-            {/* <MapComponent/> */}
-            {/* <ShareApp/> */}
-            {/* <HomeScreen/> */}
-            {/* <Notifications/> */}
-            {/* <index/> */}
-            {/* <NoResponseFoundScreen/> */}
-            {/* <AddTrip/> */}
-        </View>
-        // </Provider>       
+        <>
+            <LoginSignup expoPushToken={expoPushToken} />
+        </>
     );
 };
 

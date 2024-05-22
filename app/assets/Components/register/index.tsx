@@ -2,15 +2,18 @@ import React, { useState } from 'react'
 import Address from './Address'
 import UserDetails from './UserDetails'
 import { View } from 'react-native'
+import { useLocalSearchParams } from 'expo-router'
 
-function Register({ pushToken }) {
+function Register() {
   const [next, setNext] = useState(false)
+  const { expoPushToken } = useLocalSearchParams()
+  
   return (
-    <View>
+    <>
       {
-        next ? <Address /> : <UserDetails pushToken={pushToken} setNext={setNext} />
+        next ? <Address /> : <UserDetails expoPushToken={expoPushToken} setNext={setNext} />
       }
-    </View>
+    </>
   )
 }
 

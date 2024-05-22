@@ -4,11 +4,8 @@ import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import MapView, { Marker } from 'react-native-maps'
-import { save, getValueFor, getFileExtension } from './Utils';
+import { save, getValueFor, getFileExtension, ip } from './Utils';
 import { useRouter } from 'expo-router';
-
-
-const ip = `192.168.8.13`
 
 function AddTrip({ user_id, question_id, fromLocation }) {
 
