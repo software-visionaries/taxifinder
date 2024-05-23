@@ -9,15 +9,10 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import SecondHeader from '../trip/SecondHeader';
 import { Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { ip } from '../trip/Utils';
 
 import {  useFonts, Inter_900Black,Inter_500Medium,Inter_600SemiBold } from '@expo-google-fonts/inter'
 import {Roboto_100Thin,Roboto_300Light,Roboto_400Regular,Roboto_500Medium,Roboto_700Bold,Roboto_900Black  } from '@expo-google-fonts/roboto'
-
-
-const ip = process.env.IP_ADDRESS
-
-
-
 
 function Question({ user_id, fromLocation }) {
 
@@ -135,7 +130,7 @@ function Question({ user_id, fromLocation }) {
         formData.append("longitude", `${region.longitude}`)
         console.log(question_id.unansweredId)
 
-        fetch(`http://146.141.180.63:8080/add/trip/${1}/${question_id.unansweredId}`, {
+        fetch(`http://${ip}:8080/add/trip/${1}/${question_id.unansweredId}`, {
         method: "POST",
         body: formData,
         headers: {
@@ -158,7 +153,7 @@ function Question({ user_id, fromLocation }) {
         })
         .finally(async () => {
             console.log("getvaluefor()", getValueFor("trip_id"))
-            await FileSystem.uploadAsync(`http://146.141.180.63:8080/add/trip/image/${getValueFor("trip_id")}`, uri, {
+            await FileSystem.uploadAsync(`http://${ip}:8080/add/trip/image/${getValueFor("trip_id")}`, uri, {
             httpMethod: 'PUT',
             uploadType: FileSystem.FileSystemUploadType.MULTIPART,
             fieldName: 'multipartFile',

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, Button, StyleSheet, SafeAreaView } from 'react-native'
+import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, Image } from 'react-native'
 import { getValueFor, ip, save } from '../trip/Utils'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { API_GOOGLE_MAP_TOKEN } from '@env';
 import { Dropdown } from 'react-native-element-dropdown';
 import { sectionName } from '@/app/components/HomeScreen';
-
-save("user_id", "1")
+import AppButton from '../AppButton';
+import { router } from 'expo-router';
 
 function Address() {
 
@@ -49,6 +49,7 @@ function Address() {
       })
       .then(data => {
         console.log(data)
+        router.push({ pathname: "/components/HomeScreen" })
       })
       .catch((error) => {
         console.log(error)
@@ -56,9 +57,12 @@ function Address() {
   }
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <View style={styles.autocompleteTown}>
+    <SafeAreaView style={styles.firstContainer}>
+      <View style={styles.secondContainer}>
+        <View style={styles.thirdContainer}>
+          <View style={styles.logoImageContainer}>
+            <Image source={require('/Users/cash/Desktop/taxifinder/app/assets/icons/logo.png')} style={styles.logoImage} />
+          </View>
           <GooglePlacesAutocomplete
             placeholder='e.g Soweto or Johannesburg'
             minLength={2}
@@ -70,10 +74,21 @@ function Address() {
               key: process.env.API_GOOGLE_MAP_TOKEN,
               language: 'en',
             }}
+            styles={{
+              container: {
+                marginTop: 10,
+                flex: 0,
+                paddingTop: 5,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderWidth: .3,
+                borderRadius: 11
+              },
+              textInput: {
+              },
+            }}
           />
-        </View>
 
-        <View style={styles.autocompleteArea}>
           <GooglePlacesAutocomplete
             placeholder='e.g Diepkloof or Braamfontein'
             minLength={2}
@@ -85,31 +100,45 @@ function Address() {
               key: process.env.API_GOOGLE_MAP_TOKEN,
               language: 'en',
             }}
+            styles={{
+              container: {
+                marginTop: 10,
+                flex: 0,
+                paddingTop: 5,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderWidth: .3,
+                borderRadius: 11
+              },
+              textInput: {
+              },
+            }}
           />
-        </View>
 
-        <View style={styles.sectionContainer}>
-          <Text style={styles.townOrCityTitle}>Section</Text>
-          <View style={styles.sectionWrapper}>
-            <Dropdown
-              data={sectionName}
-              labelField="label"
-              valueField="value"
-              placeholder='e.g Extension'
-              value={section}
-              style={
-                styles.sectionName
-              }
-              placeholderStyle={styles.placeholderStyle}
-              onChange={item => setSection(item.value)} />
-            <TextInput style={styles.sectionNumber}
-              placeholder="e.g 4 / 2B"
-              onChangeText={(text) => setToSectionClassificationNumber(text)} />
+          <View>
+            <Text style={styles.townOrCityTitle}>Section</Text>
+            <View style={styles.sectionWrapper}>
+              <Dropdown
+                data={sectionName}
+                labelField="label"
+                valueField="value"
+                placeholder='e.g Extension'
+                value={section}
+                style={
+                  styles.sectionName
+                }
+                placeholderStyle={styles.placeholderStyle}
+                onChange={item => setSection(item.value)} />
+              <TextInput
+                style={styles.sectionNumber}
+                placeholder="e.g 4 / 2B"
+                onChangeText={(text) => setToSectionClassificationNumber(text)} />
+            </View>
           </View>
-        </View>
 
-        <View style={styles.submitContainer}>
-          <Button title='submit' onPress={() => handleSubmit()} />
+          <View style={styles.submitButton}>
+            <AppButton title={'Submit'} onPress={handleSubmit} />
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -117,54 +146,53 @@ function Address() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#F5F6F7",
-    flex: 1
+  firstContainer: {
+    flex: 1,
+    backgroundColor: '#006C67',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  submitContainer: {
-    position: 'absolute',
-    top: 225,
-    left: 5,
-    right: 5,
+  secondContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: .3,
+    borderColor: 'black',
+    width: '92%',
+    height: '80%',
+    backgroundColor: '#F5F6F7',
+    borderRadius: 5,
   },
-  sectionContainer: {
-    position: 'absolute',
-    top: 140,
-    left: 5,
-    right: 5,
+  thirdContainer: {
+    // justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    padding: 10,
+    height: '80%',
+    width: '92%',
+    borderRadius: 5,
+    backgroundColor: 'white',
   },
-  autocompleteTown: {
-    position: 'absolute',
-    top: 40,
-    left: 10,
-    right: 10,
-    zIndex: 4,
-    // borderWidth: 1
+  logoImageContainer: {
+    width: 160,
+    backgroundColor: '#F5F6F7',
+    borderRadius: 100,
+    height: 160,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 15
   },
-  autocompleteArea: {
-    position: 'absolute',
-    top: 90,
-    left: 10,
-    right: 10,
-    zIndex: 3
-    // borderWidth: 1
+  logoImage: {
+    width: 100,
+    height: 80
   },
-  searchButton: {
-    position: 'relative',
-    bottom: 15,
-    alignItems: 'center'
-    // left:"28%",
-
+  autoCompleteInput: {
+    borderWidth: .3,
+    borderColor: 'black'
   },
-  searchOrAddQuestionTitle: {
-    color: '#000',
-    textAlign: 'center',
-    fontFamily: 'Roboto_700Bold',
-    paddingTop: 10,
-    paddingBottom: 8,
-    textTransform: 'uppercase',
-    fontSize: 20,
-    letterSpacing: 0.9
+  registerHeadingContainer: {
+    alignSelf: 'center',
+    margin: 10
   },
   townOrCityTitle: {
     marginHorizontal: 12,
@@ -209,20 +237,12 @@ const styles = StyleSheet.create({
     color: "#999",
     fontFamily: "Roboto_300Light"
   },
-  fieldset: {
-    marginBottom: 10,
-    marginHorizontal: 8,
-    marginTop: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#cccccc5e',
-    borderRadius: 18,
+  registerHeading: {
+    fontSize: 20
   },
-  legend: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
+  submitButton: {
+    alignItems: 'center'
+  }
 })
 
 export default Address

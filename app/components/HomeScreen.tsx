@@ -246,7 +246,6 @@ function HomeScreen() {
                   borderRadius: 11,
                   marginHorizontal: 10,
                   borderColor: "#0129701a",
-                  // fontFamily : " Roboto_400Regular",
                 },
               }}
               onPress={(data) => {

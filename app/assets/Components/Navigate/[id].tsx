@@ -5,6 +5,7 @@ import * as Location from 'expo-location';
 import MapViewDirections from 'react-native-maps-directions';
 import { API_GOOGLE_MAP_TOKEN } from '@env';
 import { useLocalSearchParams } from 'expo-router';
+import { ip } from '../trip/Utils';
 
 const MapComponent = () => {
   const mapRef = useRef(null);
@@ -18,7 +19,7 @@ const MapComponent = () => {
     if(!id) {
       return;
     }
-    fetch(`http://146.141.180.63:8080/trip/${id}`)
+    fetch(`http://${ip}:8080/trip/${id}`)
       .then(res => {
         if(!res.ok) {
           throw new Error("Network response was not okay")
