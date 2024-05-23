@@ -98,7 +98,7 @@ function HomeScreen() {
         console.log(data)
         for (let i = 0; i < data.length; i++) {
           pushTokens.push(data[i].pushToken[0].push_token_value);
-        }  
+        }
         sendAllPushNotification()
       })
       .catch(error => {
@@ -106,31 +106,31 @@ function HomeScreen() {
       })
   }
 
-    const fetchTrips = async () => {
-      try {
-        const response = await fetch(`http://146.141.180.63:8080/trip/direction/${fromTown.trim()}/${fromArea.trim()}/${fromSection.trim()}/${toTown.trim()}/${toArea.trim()}/${toSection.trim()}`);
-        const data = await response.json();
-    
-        // console.log("Fetched trips:", data);
-        // setGetParticularTrip(data.tripId);
-    
-        if (data.length > 0) {
-          setIsTripAvailable(true);
-          setTrips(data)
-          router.push({
-            pathname:"/assets/Components/TripQuestion/[tripid]",
-            params : {dataTrip : await JSON.stringify( data)}
-           })
-        } else {
-          setIsTripAvailable(false);
-            await addQuestion();    
-            getUsersByTown(fromTown.trim())     
-        }
-      } catch (error) {
-        console.error("Error fetching trips:", error);
+  const fetchTrips = async () => {
+    try {
+      const response = await fetch(`http://146.141.180.63:8080/trip/direction/${fromTown.trim()}/${fromArea.trim()}/${fromSection.trim()}/${toTown.trim()}/${toArea.trim()}/${toSection.trim()}`);
+      const data = await response.json();
+
+      // console.log("Fetched trips:", data);
+      // setGetParticularTrip(data.tripId);
+
+      if (data.length > 0) {
+        setIsTripAvailable(true);
+        setTrips(data)
+        router.push({
+          pathname: "/assets/Components/TripQuestion/[tripid]",
+          params: { dataTrip: await JSON.stringify(data) }
+        })
+      } else {
+        setIsTripAvailable(false);
+        await addQuestion();
+        getUsersByTown(fromTown.trim())
       }
-    };
-    
+    } catch (error) {
+      console.error("Error fetching trips:", error);
+    }
+  };
+
 
   //   const findOutSearchOrAddQuestion = () => {
   //     fetchTrips();
@@ -171,7 +171,7 @@ function HomeScreen() {
             console.error(error);
         }      
 
-    }
+  }
 
 
 
