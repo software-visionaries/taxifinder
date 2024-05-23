@@ -7,6 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import {  router } from 'expo-router'; 
 import CommentComponent from '../trip/CommentComponent';
 import { useLocalSearchParams } from 'expo-router';
+import { ip } from '../trip/Utils';
 
 import SecondHeader from '../trip/SecondHeader';
 import { Platform } from 'react-native';
@@ -47,7 +48,7 @@ const TripList: React.FC = () => {
   }
   
   useEffect(() => {   
-    fetch(`http://146.141.180.63:8080/trip/direction/${tripjson[0].fromTownName}/${tripjson[0].fromAreaName}/${tripjson[0].fromSectionName}/${tripjson[0].toTownName}/${tripjson[0].toAreaName}/${tripjson[0].toSectionName}`)
+    fetch(`http://${ip}:8080/trip/direction/${tripjson[0].fromTownName}/${tripjson[0].fromAreaName}/${tripjson[0].fromSectionName}/${tripjson[0].toTownName}/${tripjson[0].toAreaName}/${tripjson[0].toSectionName}`)
     .then(res => {
       if(!res.ok) {
         throw new Error("Network response was not okay")
@@ -81,7 +82,7 @@ const TripList: React.FC = () => {
 
   const handleCommentSubmit = (tripId: number) => {
     const userId = 8; 
-    fetch(`http://146.141.180.63:8080/create-comment/${tripId}/${1}?message=${commentText}`, {
+    fetch(`http://${ip}:8080/create-comment/${tripId}/${userId}?message=${commentText}`, {
       method: 'POST',
     })
       .then(response => {
@@ -104,8 +105,8 @@ const TripList: React.FC = () => {
   const handleLikePress = (tripId: number) => {
     setShowModal(false);
     setLikeAction('upvote');
-    const userId = 1;
-    fetch(`http://146.141.180.63:8080/rating/vote/${userId}/${tripId}?action=upvote`, {
+    const userId = 8;
+    fetch(`http://${ip}:8080/rating/vote/${userId}/${tripId}?action=upvote`, {
       method: 'POST',
     })
       .then(response => {
@@ -123,8 +124,8 @@ const TripList: React.FC = () => {
   const handleDislikePress = (tripId: number) => {
     setShowModal(false);
     setLikeAction('downvote');
-    const userId = 1;
-    fetch(`http://146.141.180.63:8080/rating/vote/${userId}/${tripId}?action=downvote`, {
+    const userId = 8;
+    fetch(`http://${ip}:8080/rating/vote/${userId}/${tripId}?action=downvote`, {
       method: 'POST',
     })
       .then(response => {
