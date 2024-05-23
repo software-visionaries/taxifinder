@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import {  router } from 'expo-router'; 
 import CommentComponent from '../trip/CommentComponent';
 import { useLocalSearchParams } from 'expo-router';
-import { ip } from '../trip/Utils';
+import { ip ,getValueFor} from '../trip/Utils';
 
 import SecondHeader from '../trip/SecondHeader';
 import { Platform } from 'react-native';
@@ -42,6 +42,7 @@ const TripList: React.FC = () => {
   const tripjson = JSON.parse(dataTrip);
   
   console.log(tripjson)
+  const userId = getValueFor("user_id");
   
   function tripNumber (number) {
     return number;
@@ -81,7 +82,7 @@ const TripList: React.FC = () => {
   
 
   const handleCommentSubmit = (tripId: number) => {
-    const userId = 8; 
+    
     fetch(`http://${ip}:8080/create-comment/${tripId}/${userId}?message=${commentText}`, {
       method: 'POST',
     })
@@ -105,7 +106,6 @@ const TripList: React.FC = () => {
   const handleLikePress = (tripId: number) => {
     setShowModal(false);
     setLikeAction('upvote');
-    const userId = 8;
     fetch(`http://${ip}:8080/rating/vote/${userId}/${tripId}?action=upvote`, {
       method: 'POST',
     })
@@ -124,7 +124,6 @@ const TripList: React.FC = () => {
   const handleDislikePress = (tripId: number) => {
     setShowModal(false);
     setLikeAction('downvote');
-    const userId = 8;
     fetch(`http://${ip}:8080/rating/vote/${userId}/${tripId}?action=downvote`, {
       method: 'POST',
     })

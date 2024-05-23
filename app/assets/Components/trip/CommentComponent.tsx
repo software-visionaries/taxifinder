@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import Avatar from './Avatar';
 import { MaterialIcons } from '@expo/vector-icons';
+import { ip, getValueFor } from '../trip/Utils';
 
 interface Comment {
   commentDto: {
@@ -22,11 +23,12 @@ interface Props {
 
 const CommentComponent: React.FC<Props> = ({ tripId }) => {
   const [comments, setComments] = useState<Comment[]>([]);
+  const userId = getValueFor("user_id");
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await fetch(`http://146.141.180.63:8080/comments/${tripId}`);
+        const response = await fetch(`http://${ip}:8080/comments/${tripId}`);
         const data = await response.json();
         setComments(data);
       } catch (error) {
@@ -40,7 +42,7 @@ const CommentComponent: React.FC<Props> = ({ tripId }) => {
   }, [comments]);
 
   const createReplyComment = (message:string, commentId:number) => {
-    fetch(`/create-replay-comment/${1}/${commentId}`, {
+    fetch(`/create-replay-comment/${userId}/${commentId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

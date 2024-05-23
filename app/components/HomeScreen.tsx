@@ -8,7 +8,7 @@ import { useFonts, Inter_900Black, Inter_500Medium, Inter_600SemiBold } from '@e
 import { Roboto_100Thin, Roboto_300Light, Roboto_400Regular, Roboto_500Medium, Roboto_700Bold, Roboto_900Black } from '@expo-google-fonts/roboto'
 import { Dropdown } from 'react-native-element-dropdown';
 import { router } from 'expo-router';
-import { ip } from '../assets/Components/trip/Utils';
+import { ip, getValueFor } from '../assets/Components/trip/Utils';
 import Constants from 'expo-constants';
 
 
@@ -68,6 +68,7 @@ function HomeScreen() {
 
   const [trips, setTrips] = useState([]);
   const [getParticularTrip, setGetParticularTrip] = useState();
+  const userId = getValueFor("user_id");
 
   const sendAllPushNotification = () => {
     console.log("sendAllPushNotification in HomeScreen Component", "Clicked")
@@ -122,7 +123,8 @@ function HomeScreen() {
            })
         } else {
           setIsTripAvailable(false);
-            await addQuestion();         
+            await addQuestion();    
+            getUsersByTown(fromTown.trim())     
         }
       } catch (error) {
         console.error("Error fetching trips:", error);
@@ -138,10 +140,11 @@ function HomeScreen() {
 
   //     }   
   // }
-
+  
+    
     const addQuestion = async () => {
         try {
-            const response = await fetch(`http://146.141.180.63:8080/add/question/1`,{
+            const response = await fetch(`http://146.141.180.63:8080/add/question/${userId}`,{
                 method : 'POST',
                 headers : {
                     'Content-Type' : 'application/json'

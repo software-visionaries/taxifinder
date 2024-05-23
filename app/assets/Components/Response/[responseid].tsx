@@ -27,6 +27,7 @@ function Question({ user_id, fromLocation }) {
     const router = useRouter();
     const [modalVisible, setModalVisible] = useState(false);
     const  question_id = useLocalSearchParams<{unansweredId : string}>(); 
+    const userId = getValueFor("user_id");
 
     const [region, setRegion] = useState({
         latitude: 0,
@@ -130,7 +131,7 @@ function Question({ user_id, fromLocation }) {
         formData.append("longitude", `${region.longitude}`)
         console.log(question_id.unansweredId)
 
-        fetch(`http://${ip}:8080/add/trip/${1}/${question_id.unansweredId}`, {
+        fetch(`http://${ip}:8080/add/trip/${userId}/${question_id.unansweredId}`, {
         method: "POST",
         body: formData,
         headers: {

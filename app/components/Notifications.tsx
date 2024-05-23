@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react'
 import { Pressable, TouchableOpacity } from 'react-native';
 import { FlatList, StyleSheet, View, Text, ScrollView } from 'react-native';
-import { ip } from '../assets/Components/trip/Utils';
+import { ip ,getValueFor} from '../assets/Components/trip/Utils';
 
 
 import SecondHeader from '../assets/Components/trip/SecondHeader';
@@ -11,10 +11,11 @@ import SecondHeader from '../assets/Components/trip/SecondHeader';
 function Notifications() {
 
     const[unanswered,setUnanswered] = useState([]);
+    const userId = getValueFor("user_id");
 
     const fetchUnanswered = async () => {
         try {
-            const response = await fetch(`http://${ip}:8080/get/unanswered-question/${1}`);
+            const response = await fetch(`http://${ip}:8080/get/unanswered-question/${userId}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
