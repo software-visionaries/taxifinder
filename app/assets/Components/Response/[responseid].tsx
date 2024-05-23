@@ -135,7 +135,7 @@ function Question({ user_id, fromLocation }) {
         formData.append("longitude", `${region.longitude}`)
         console.log(question_id.unansweredId)
 
-        fetch(`http://146.141.180.79:8080/add/trip/${1}/${question_id.unansweredId}`, {
+        fetch(`http://146.141.180.63:8080/add/trip/${1}/${question_id.unansweredId}`, {
         method: "POST",
         body: formData,
         headers: {
@@ -158,7 +158,7 @@ function Question({ user_id, fromLocation }) {
         })
         .finally(async () => {
             console.log("getvaluefor()", getValueFor("trip_id"))
-            await FileSystem.uploadAsync(`http://146.141.180.79:8080/add/trip/image/${getValueFor("trip_id")}`, uri, {
+            await FileSystem.uploadAsync(`http://146.141.180.63:8080/add/trip/image/${getValueFor("trip_id")}`, uri, {
             httpMethod: 'PUT',
             uploadType: FileSystem.FileSystemUploadType.MULTIPART,
             fieldName: 'multipartFile',

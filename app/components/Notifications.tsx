@@ -13,7 +13,7 @@ function Notifications() {
 
     const fetchUnanswered = async () => {
         try {
-            const response = await fetch(`http://146.141.180.79:8080/get/unanswered-question/${1}`);
+            const response = await fetch(`http://146.141.180.63:8080/get/unanswered-question/${1}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }

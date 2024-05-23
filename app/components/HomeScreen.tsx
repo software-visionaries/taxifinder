@@ -37,7 +37,7 @@ function HomeScreen() {
 
     const fetchTrips = async () => {
       try {
-        const response = await fetch(`http://146.141.180.79:8080/trip/direction/${fromTown.trim()}/${fromArea.trim()}/${fromSection.trim()}/${toTown.trim()}/${toArea.trim()}/${toSection.trim()}`);
+        const response = await fetch(`http://146.141.180.63:8080/trip/direction/${fromTown.trim()}/${fromArea.trim()}/${fromSection.trim()}/${toTown.trim()}/${toArea.trim()}/${toSection.trim()}`);
         const data = await response.json();
     
         // console.log("Fetched trips:", data);
@@ -71,7 +71,7 @@ function HomeScreen() {
 
     const addQuestion = async () => {
         try {
-            const response = await fetch(`http://146.141.180.79:8080/add/question/1`,{
+            const response = await fetch(`http://146.141.180.63:8080/add/question/1`,{
                 method : 'POST',
                 headers : {
                     'Content-Type' : 'application/json'
