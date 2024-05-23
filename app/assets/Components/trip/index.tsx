@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import Question from './Question'
 import AddTrip from './AddTrip'
-import { save, getValueFor } from './Utils';
-
-const ip = process.env.IP_ADDRESS
+import { save, getValueFor, ip } from './Utils';
 
 function Trip() {
   const [fromLocation, setFromLocation] = useState("")

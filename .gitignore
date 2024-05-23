@@ -3,6 +3,9 @@
 # dependencies
 node_modules/
 
+shortleft-3a08c-firebase-adminsdk-1pyxo-36f269b85c.json
+google-services.json
+
 # Expo
 .expo/
 dist/
@@ -32,10 +35,6 @@ yarn-error.*
 .env*.local
 
 .env
-<<<<<<< HEAD
-=======
-
->>>>>>> navigation
 # typescript
 *.tsbuildinfo
 
