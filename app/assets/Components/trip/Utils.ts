@@ -1,6 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 
-export const ip = `192.168.8.13`
+export const ip = `146.141.180.63`
 
 export function save(key: string, value: string) {
     SecureStore.setItem(key, value);
