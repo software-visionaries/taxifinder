@@ -120,7 +120,7 @@ function AddTrip({ user_id, question_id, fromLocation }) {
     formData.append("latitude", `${region.latitude}`)
     formData.append("longitude", `${region.longitude}`)
 
-    fetch(`http://146.141.180.63:8080/add/trip/${user_id}/${question_id}`, {
+    fetch(`http://${ip}:8080/add/trip/${user_id}/${question_id}`, {
       method: "POST",
       body: formData,
       headers: {
@@ -143,7 +143,7 @@ function AddTrip({ user_id, question_id, fromLocation }) {
       })
       .finally(async () => {
         console.log("getvaluefor()", getValueFor("trip_id"))
-        await FileSystem.uploadAsync(`http://146.141.180.63:8080/add/trip/image/${getValueFor("trip_id")}`, uri, {
+        await FileSystem.uploadAsync(`http://${ip}:8080/add/trip/image/${getValueFor("trip_id")}`, uri, {
           httpMethod: 'PUT',
           uploadType: FileSystem.FileSystemUploadType.MULTIPART,
           fieldName: 'multipartFile',

@@ -11,7 +11,7 @@ const MapComponent = () => {
 
   const [currentLocation, setCurrentLocation] = useState(null);
   const [destination, setDestination] = useState<any>(null);
-  const[taxiStand, setTaxiStand] = useState<any>(null);
+  const [taxiStand, setTaxiStand] = useState<any>(null);
   const [initialRegion, setInitialRegion] = useState(null);
   const [destinationInfo, setDestinationInfo] = useState("");
   const [switchDestination, setSwitchDestination] = useState(false);
@@ -39,29 +39,29 @@ const MapComponent = () => {
   };
 
 
- 
+
 
   useEffect(() => {
-    getLocation();  
+    getLocation();
   }, []);
 
   useEffect(() => {
 
-    let subscription :Location.LocationSubscription | null = null;
+    let subscription: Location.LocationSubscription | null = null;
 
     (async () => {
       subscription = await Location.watchPositionAsync(
-        {accuracy :Location.Accuracy.BestForNavigation,timeInterval:1000},
-        ({coords}) => {
+        { accuracy: Location.Accuracy.BestForNavigation, timeInterval: 1000 },
+        ({ coords }) => {
           setCurrentLocation(coords);
-          console.log("this is changes " + coords.altitude); 
+          console.log("this is changes " + coords.altitude);
         });
     })();
 
     return () => {
       subscription?.remove();
     };
-    
+
   }, []);
 
 
@@ -78,66 +78,66 @@ const MapComponent = () => {
 
   useEffect(() => {
     if (destination && destination.location != null) {
-        // console.log(destination.location);
+      // console.log(destination.location);
     }
-   
+
     // console.log(currentLocation);
 
     if (destination && destination.location) {
-        const distance = calculateDistance(currentLocation.latitude, 
-          currentLocation.longitude, destination.location.lat, destination.location.lng);
-        console.log(currentLocation.longitude)
-        console.log(destination.location)
-        console.log("Distance between current location and destination:", distance);
+      const distance = calculateDistance(currentLocation.latitude,
+        currentLocation.longitude, destination.location.lat, destination.location.lng);
+      console.log(currentLocation.longitude)
+      console.log(destination.location)
+      console.log("Distance between current location and destination:", distance);
 
-        
-        const range = 0.1; 
-        if (distance <= range ) {
-            console.log("Taxi Reached","Current location is close to the destination");
 
-            // Alert.alert(
-            //   "You reached taxi rank or taxi stand",
-            //   "Do you want to continue to navigate to your destination?",
-            //   [
-            //     {
-            //       text: "Cancel",
-            //       onPress: () => {
-            //         setSwitchDestination(true);
-            //       },
-            //     },
-            //     {
-            //       text: "OK",
-            //       onPress: () => {
-            //         setSwitchDestination(true);
-            //       },
-            //     },
-            //   ]
-            // );
-           
-            
-        } else {
-            console.log("Current location is not close to the destination");
-        }
+      const range = 0.1;
+      if (distance <= range) {
+        console.log("Taxi Reached", "Current location is close to the destination");
+
+        // Alert.alert(
+        //   "You reached taxi rank or taxi stand",
+        //   "Do you want to continue to navigate to your destination?",
+        //   [
+        //     {
+        //       text: "Cancel",
+        //       onPress: () => {
+        //         setSwitchDestination(true);
+        //       },
+        //     },
+        //     {
+        //       text: "OK",
+        //       onPress: () => {
+        //         setSwitchDestination(true);
+        //       },
+        //     },
+        //   ]
+        // );
+
+
+      } else {
+        console.log("Current location is not close to the destination");
+      }
     }
-},[switchDestination]);
+  }, [switchDestination]);
 
 
-function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; 
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371;
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; 
+    const distance = R * c;
     return distance;
-}
+  }
 
 
-function toRad(degrees) {
+  function toRad(degrees) {
     return degrees * Math.PI / 180;
-}
+  }
 
   return (
     <View style={styles.container}>
@@ -186,7 +186,7 @@ function toRad(degrees) {
               optimizeWaypoints={true}
               timePrecision="now"
               time={new Date().getTime()}
-              
+
             />
           )}
 

@@ -1,20 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
-import { Text, View, Button, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
-import MapComponent from './assets/Components/MapComponent';
-import Trip from './assets/Components/trip';
-import { Provider } from "react-redux"
-import Register from './assets/Components/register';
-import TopMenu from './assets/Components/TopMenu';
-import HomeScreen from './components/HomeScreen';
-import NoResponseFoundScreen from './components/NoResponseFoundScreen';
-import AddTrip from './assets/Components/trip/AddTrip';
-import Address from './assets/Components/register/Address';
-import Login from './assets/Components/login';
 import LoginSignup from './assets/Components/loginSignup';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -23,6 +13,12 @@ Notifications.setNotificationHandler({
         shouldSetBadge: false,
     }),
 });
+
+// Notifications.addNotificationResponseReceivedListener(response => {
+//     if (response.actionIdentifier === 'expo.modules.notifications.actions.DEFAULT') {
+//         router.push({ pathname: '/components/Notifications' })
+//     }
+// })
 
 function handleRegistrationError(errorMessage: string) {
     alert(errorMessage);
@@ -83,10 +79,11 @@ const Index = () => {
             .then((token) => setExpoPushToken(token ?? ''))
             .catch((error: any) => setExpoPushToken(`${error}`))
 
-        notificationListener.current = Notifications.addNotificationReceivedListener((notification) => setNotification(notification));
+        notificationListener.current = Notifications.addNotificationReceivedListener((notification) => console.log(notification));
 
         responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-            console.log(response);
+            console.log("Notification is tapped", response);
+            router.push({ pathname: '/components/Notifications' })
         })
 
         return () => {

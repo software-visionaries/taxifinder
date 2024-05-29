@@ -1,6 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 
-export const ip = `146.141.180.63`
+export const ip = `146.141.180.64`
 
 export function save(key: string, value: string) {
     SecureStore.setItem(key, value);
@@ -11,6 +11,17 @@ export function getValueFor(key: string) {
     if (result !== null) {
         return result
     }
+}
+
+export function getSubstringBeforeComma(str: string): string {
+    const commaIndex = str.indexOf(',')
+
+    if (commaIndex === -1) {
+        return str
+    } else {
+        return str.slice(0, commaIndex)
+    }
+
 }
 
 export function getFileExtension(uri: String) {

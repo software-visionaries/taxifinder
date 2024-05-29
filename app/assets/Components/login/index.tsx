@@ -21,7 +21,6 @@ function Login() {
     }
 
     const handleNext = async () => {
-
         const credentials = `${email}:${password}`;
         const Buffer = require("buffer").Buffer
         let encodedCred = new Buffer(credentials).toString("base64")
@@ -59,7 +58,7 @@ function Login() {
             <View style={styles.firstContainer}>
                 <View style={styles.secondContainer}>
                     <View style={styles.logoImageContainer}>
-                        <Image source={require('/Users/User/Pictures/half done taxi finder/taxifinder/app/assets/icons/logo.png')} style={styles.logoImage} />
+                        <Image source={require('/Users/cash/Desktop/taxifinder/app/assets/icons/logo.png')} style={styles.logoImage} />
                     </View>
                     <View style={styles.loginHeadingContainer}>
                         <Text style={styles.loginHeading}>Login</Text>

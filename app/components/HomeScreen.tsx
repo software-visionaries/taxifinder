@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import TopMenu from '../assets/Components/TopMenu'
-import { Button, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { API_GOOGLE_MAP_TOKEN } from '@env';
 import AppButton from '../assets/Components/AppButton';
@@ -8,22 +8,20 @@ import { useFonts, Inter_900Black, Inter_500Medium, Inter_600SemiBold } from '@e
 import { Roboto_100Thin, Roboto_300Light, Roboto_400Regular, Roboto_500Medium, Roboto_700Bold, Roboto_900Black } from '@expo-google-fonts/roboto'
 import { Dropdown } from 'react-native-element-dropdown';
 import { router } from 'expo-router';
-import { ip, getValueFor } from '../assets/Components/trip/Utils';
-import Constants from 'expo-constants';
-
+import { ip, getValueFor, getSubstringBeforeComma } from '../assets/Components/trip/Utils';
 
 interface LocationData {
   location: any; // You can replace 'any' with the appropriate type for location data
   description: string;
 }
 
-async function sendPushNotification(expoPushToken: string) {
+async function sendPushNotification(expoPushToken: string, from: String, to: String) {
   const message = {
     to: expoPushToken,
     sound: 'default',
-    title: 'Works',
-    body: 'Hello world',
-    data: { someData: 'goes here' },
+    title: 'Directions Request',
+    body: "Hey Short-lefts! Where can I get taxi's from " + from + " to " + to,
+    // data: { user_id },
   };
 
   await fetch('https://exp.host/--/api/v2/push/send', {
@@ -37,7 +35,6 @@ async function sendPushNotification(expoPushToken: string) {
   });
 }
 
-
 //   data for dropdown
 export const sectionName = [
   { label: 'Extension', value: 'Extension' },
@@ -46,8 +43,6 @@ export const sectionName = [
   { label: 'Block', value: 'Block' },
   { label: 'Zone', value: 'Zone' },
 ]
-
-
 
 function HomeScreen() {
 
@@ -71,11 +66,11 @@ function HomeScreen() {
   const userId = getValueFor("user_id");
 
   const sendAllPushNotification = () => {
-    console.log("sendAllPushNotification in HomeScreen Component", "Clicked")
+    let from = `${getSubstringBeforeComma(fromTown)} ${getSubstringBeforeComma(fromArea)} ${getSubstringBeforeComma(fromSection)} `;
+    let to = `${getSubstringBeforeComma(toTown)} ${getSubstringBeforeComma(toArea)} ${getSubstringBeforeComma(toSection)} `
     if (pushTokens.length > 0) {
       pushTokens.forEach(token => {
-        console.log("Message token sent", token)
-        sendPushNotification(token)
+        sendPushNotification(token, from, to)
       })
       console.log("Push notification sent")
     }
@@ -108,11 +103,8 @@ function HomeScreen() {
 
   const fetchTrips = async () => {
     try {
-      const response = await fetch(`http://146.141.180.63:8080/trip/direction/${fromTown.trim()}/${fromArea.trim()}/${fromSection.trim()}/${toTown.trim()}/${toArea.trim()}/${toSection.trim()}`);
+      const response = await fetch(`http://${ip}:8080/trip/direction/${fromTown.trim()}/${fromArea.trim()}/${fromSection.trim()}/${toTown.trim()}/${toArea.trim()}/${toSection.trim()}`);
       const data = await response.json();
-
-      // console.log("Fetched trips:", data);
-      // setGetParticularTrip(data.tripId);
 
       if (data.length > 0) {
         setIsTripAvailable(true);
@@ -131,49 +123,36 @@ function HomeScreen() {
     }
   };
 
+  const addQuestion = async () => {
+    try {
+      const response = await fetch(`http://${ip}:8080/add/question/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          fromTown: fromTown.trim(),
+          fromArea: fromArea.trim(),
+          fromSection: fromSection.trim(),
+          toTown: toTown.trim(),
+          toArea: toArea.trim(),
+          toSection: toSection.trim()
+        }),
+      });
+      router.navigate("/components/NoResponseFoundScreen");
+      if (!response.ok) {
+        console.log("error");
+      }
+      else {
+        const data = await response.text();
+        console.log('successful added', data);
+      }
 
-  //   const findOutSearchOrAddQuestion = () => {
-  //     fetchTrips();
-  //     console.log(isTripAvailable)
-  //     if(isTripAvailable) {
-  //       addQuestion();
-
-  //     }   
-  // }
-  
-    
-    const addQuestion = async () => {
-        try {
-            const response = await fetch(`http://146.141.180.63:8080/add/question/${userId}`,{
-                method : 'POST',
-                headers : {
-                    'Content-Type' : 'application/json'
-                },
-                body : JSON.stringify({
-                    fromTown : fromTown.trim(),
-                    fromArea : fromArea.trim(),
-                    fromSection : fromSection.trim(),
-                    toTown : toTown.trim(),
-                    toArea :toArea.trim(),
-                    toSection : toSection.trim()
-                }),
-            });
-            router.navigate("/components/NoResponseFoundScreen");
-            if(!response.ok) {
-                console.log("error");
-            }
-            else {
-                const data = await response.text();
-                console.log('successful added', data);
-            }            
-            
-        } catch (error) {
-            console.error(error);
-        }      
+    } catch (error) {
+      console.error(error);
+    }
 
   }
-
-
 
   let [fontsLoaded] = useFonts({
     Inter_900Black,

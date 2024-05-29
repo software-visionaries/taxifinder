@@ -20,7 +20,7 @@ function LoginSignup({ expoPushToken }) {
             <View style={styles.firstContainer}>
                 <View style={styles.secondContainer}>
                     <View style={styles.logoImageContainer}>
-                    <Image source={require('/Users/User/Pictures/half done taxi finder/taxifinder/app/assets/icons/logo.png')} style={styles.logoImage} />
+                        <Image source={require('/Users/cash/Desktop/taxifinder/app/assets/icons/logo.png')} style={styles.logoImage} />
                     </View>
                     <View style={styles.welcomeHeadingContainer}>
                         <Text style={styles.welcomeHeading}>Welcome</Text>

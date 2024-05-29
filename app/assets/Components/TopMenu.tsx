@@ -6,9 +6,9 @@ import { router } from 'expo-router';
 
 
 function TopMenu() {
-  return (
-    <View style ={styles.container}>
-        <View style={styles.navigation}>
+    return (
+        <View style={styles.container}>
+            <View style={styles.navigation}>
                 <View style={styles.LeftIcon}>
                     <TouchableOpacity onPress={() => {
                         router.navigate("/components/HomeScreen");
@@ -21,15 +21,15 @@ function TopMenu() {
                         router.navigate("/components/Notifications");
                     }}>
                         <Icon name="bell" size={20} color={"#FFFFFF"} />
-                    </TouchableOpacity>                    
+                    </TouchableOpacity>
                     <TouchableOpacity>
                         <Icon name="user-circle" size={20} color={"#FFFFFF"} />
                     </TouchableOpacity>
                 </View>
-                
+
             </View >
-    </View>
-  )
+        </View>
+    )
 }
 const styles = StyleSheet.create({
     container: {
@@ -56,5 +56,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
         marginLeft: 'auto',
-    }})
+    }
+})
 export default TopMenu
